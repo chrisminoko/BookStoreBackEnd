@@ -42,7 +42,8 @@ namespace BookStoreBackEnd.Models.DataManager
 
         public void Delete(Author entity)
         {
-            throw new NotImplementedException();
+            _bookstorecontext.Remove(entity);
+            _bookstorecontext.SaveChanges();
         }
 
 

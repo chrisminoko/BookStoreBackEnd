@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using BookStoreBackEnd.Models.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookStoreBackEnd
 {
@@ -28,11 +29,19 @@ namespace BookStoreBackEnd
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddDbContext<BookStoreContext>(options =>
+           options.UseSqlServer(Configuration.GetConnectionString("BooksDB")));
             services.AddScoped<IDataRepository<Author, AuthorDto>, AuthorDataManager>();
+
+            services.AddControllers()
+                .AddNewtonsoftJson(
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore// This will make sure that the case matches the what json requires
+                );
         }
+        //https://github.com/CodeMazeBlog/ef-db-first/blob/master/EFCoreDatabaseFirstSample/EFCoreDatabaseFirstSample/Controllers/BooksController.cs
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        //https://code-maze.com/asp-net-core-web-api-with-ef-core-db-first-approach/
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())

@@ -71,11 +71,11 @@ namespace BookStoreBackEnd.Models
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Book__CategoryId__2C3393D0");
-
+                //By adding DeletedBehavior.cascade  we will now be able to delete anything that is related to it as well
                 entity.HasOne(d => d.Publisher)
                     .WithMany(p => p.Book)
                     .HasForeignKey(d => d.PublisherId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Book__PublisherI__2D27B809");
             });
 

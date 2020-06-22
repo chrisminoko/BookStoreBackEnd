@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace BookStoreBackEnd.Models.Repository
 {
-    interface IDataRepository<TEntity, TDto>
+   public interface IDataRepository<TEntity, TDto>
     {
         IEnumerable<TEntity> GetAll();
         TEntity Get(long id);
